@@ -61,7 +61,7 @@ const EasterEggs = (() => {
 
       if (clickCount >= 5) {
         clickCount = 0;
-        if (window.ParticleEngine) {
+        if (ParticleEngine) {
           ParticleEngine.setBloom(true);
         }
         return;
@@ -79,7 +79,7 @@ const EasterEggs = (() => {
     const hour = new Date().getHours();
     if (hour >= 0 && hour < 1) {
       document.body.classList.add('midnight-mode');
-      if (window.ParticleEngine) {
+      if (ParticleEngine) {
         ParticleEngine.setMidnight(true);
       }
     }

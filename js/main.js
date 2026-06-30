@@ -16,10 +16,10 @@
 
   // 初始化首屏粒子
   function initHero() {
-    console.log('[main] initHero: ParticleEngine exists:', !!window.ParticleEngine);
+    console.log('[main] initHero: ParticleEngine exists:', !!ParticleEngine);
     const canvas = document.getElementById('particleCanvas');
     console.log('[main] canvas element:', canvas);
-    if (canvas && window.ParticleEngine) {
+    if (canvas && ParticleEngine) {
       ParticleEngine.init(canvas);
       console.log('[main] ParticleEngine.init() done, starting in 200ms');
       setTimeout(() => {
@@ -50,7 +50,7 @@
 
   // 初始化内容区
   function initContent() {
-    if (window.ContentArea) {
+    if (ContentArea) {
       console.log('[main] rendering content area');
       ContentArea.render().then(() => {
         console.log('[main] content rendered');
@@ -64,7 +64,7 @@
 
   // 初始化彩蛋
   function initEasterEggs() {
-    if (window.EasterEggs) {
+    if (EasterEggs) {
       console.log('[main] initializing easter eggs');
       EasterEggs.init();
     } else {
@@ -75,9 +75,9 @@
   // 页面不可见时暂停粒子
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) {
-      if (window.ParticleEngine) ParticleEngine.stop();
+      if (ParticleEngine) ParticleEngine.stop();
     } else {
-      if (window.ParticleEngine) ParticleEngine.start();
+      if (ParticleEngine) ParticleEngine.start();
     }
   });
 
