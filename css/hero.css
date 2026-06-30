@@ -60,11 +60,16 @@
   max-width: 900px;
   cursor: default;
   box-shadow: var(--shadow-card-hover);
+  padding: 48px 56px;
 }
 
-/* 折叠状态的头 */
+/* 折叠状态的头 — 展开后隐藏 */
 .hero-card-header {
   transition: opacity 0.3s ease;
+}
+
+.hero-card.expanded .hero-card-header {
+  display: none;
 }
 
 /* 头像占位 */
@@ -132,9 +137,6 @@
 .hero-resume {
   display: flex;
   gap: 36px;
-  padding-top: 28px;
-  border-top: 1px solid rgba(255, 255, 255, 0.5);
-  margin-top: 24px;
 }
 
 /* 左栏 30% */
@@ -297,6 +299,7 @@
 @media (max-width: 768px) {
   .hero-card.expanded {
     max-width: 90%;
+    padding: 32px 24px;
   }
   .hero-resume {
     flex-direction: column;
