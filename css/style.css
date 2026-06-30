@@ -94,3 +94,54 @@ a {
 .site-footer .games-link:hover {
   color: var(--color-accent);
 }
+
+/* 午夜模式 */
+body.midnight-mode {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  color: #e0e0e0;
+}
+
+body.midnight-mode .hero-card {
+  background: rgba(30, 30, 60, 0.6);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 4px 30px rgba(100, 100, 200, 0.1);
+}
+
+body.midnight-mode .hero-name {
+  color: #e8eaf6;
+}
+
+body.midnight-mode .hero-bio {
+  color: #9fa8da;
+}
+
+body.midnight-mode .scroll-hint {
+  color: #9fa8da;
+}
+
+body.midnight-mode .masonry-item,
+body.midnight-mode .project-item {
+  background: rgba(40, 40, 70, 0.8);
+  color: #e0e0e0;
+  box-shadow: 0 4px 20px rgba(100, 100, 200, 0.08);
+}
+
+body.midnight-mode .masonry-item .card-title,
+body.midnight-mode .project-item .project-name {
+  color: #e8eaf6;
+}
+
+body.midnight-mode .masonry-item .card-summary,
+body.midnight-mode .project-item .project-summary {
+  color: #9fa8da;
+}
+
+body.midnight-mode .section-title {
+  color: #e8eaf6;
+  border-left-color: #7c4dff;
+}
+
+body.midnight-mode .site-footer {
+  color: #9fa8da;
+}
