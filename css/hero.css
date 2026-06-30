@@ -178,7 +178,35 @@
 .hero-resume-bio {
   font-size: 13px;
   color: #555;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
+}
+
+.hero-resume-info {
+  width: 100%;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.info-item:last-child {
+  border-bottom: none;
+}
+
+.info-label {
+  font-size: 11px;
+  color: #888;
+  letter-spacing: 1px;
+  margin-bottom: 2px;
+}
+
+.info-value {
+  font-size: 13px;
+  color: #444;
 }
 
 /* 右栏 70% */
