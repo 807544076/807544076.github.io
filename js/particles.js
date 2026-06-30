@@ -1,6 +1,8 @@
 /* js/particles.js — 樱花粒子引擎 */
 
+console.log('[particles] loading...');
 const ParticleEngine = (() => {
+  console.log('[particles] IIFE running, defining engine');
   let canvas, ctx;
   let particles = [];
   let animationId = null;
@@ -236,5 +238,6 @@ const ParticleEngine = (() => {
     }
   }
 
+  console.log('[particles] engine ready');
   return { init, start, stop, setBloom, setMidnight };
 })();
