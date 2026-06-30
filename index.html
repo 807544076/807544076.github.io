@@ -48,9 +48,11 @@
     <div>
       <a class="social-link link-underline" href="https://github.com/oceanfish" target="_blank">GitHub</a>
     </div>
-    <span class="games-link" id="gamesLink">🎮 Games</span>
+    <span class="games-link" id="gamesLink" onclick="if(window.Games) Games.launch()">🎮 Games</span>
   </footer>
 
+  <script src="js/live2d-bridge.js"></script>
+  <script src="js/games.js"></script>
   <script src="js/particles.js"></script>
   <script src="js/main.js" defer></script>
 </body>
