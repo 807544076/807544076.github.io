@@ -1,0 +1,96 @@
+/* css/style.css -- 全局样式 */
+
+/* === Reset === */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans SC", sans-serif;
+  background: linear-gradient(135deg, #fef9f5 0%, #fce8e0 100%);
+  color: #2d2d2d;
+  line-height: 1.8;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* === CSS Variables === */
+:root {
+  --color-primary: #f2a6a6;
+  --color-primary-light: #f2d5d5;
+  --color-primary-pale: #fff5f5;
+  --color-accent: #e8738a;
+  --color-text: #2d2d2d;
+  --color-text-secondary: #888888;
+  --color-card-bg: rgba(255, 255, 255, 0.6);
+  --color-bg-start: #fef9f5;
+  --color-bg-end: #fce8e0;
+  --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.06);
+  --shadow-card-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
+  --radius-card: 16px;
+  --transition-base: 0.3s ease;
+}
+
+/* === Global Interactions === */
+.card-hover {
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
+}
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-card-hover);
+}
+
+.click-feedback {
+  transition: transform 0.15s ease;
+}
+.click-feedback:active {
+  transform: scale(0.97);
+}
+
+.link-underline {
+  background: linear-gradient(to right, var(--color-primary), var(--color-primary));
+  background-repeat: no-repeat;
+  background-size: 0% 2px;
+  background-position: left bottom;
+  transition: background-size var(--transition-base);
+  padding-bottom: 2px;
+}
+.link-underline:hover {
+  background-size: 100% 2px;
+}
+
+/* === Footer === */
+.site-footer {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--color-text-secondary);
+  font-size: 14px;
+}
+.site-footer .social-link {
+  margin: 0 8px;
+  color: var(--color-text-secondary);
+  transition: color var(--transition-base);
+}
+.site-footer .social-link:hover {
+  color: var(--color-accent);
+}
+.site-footer .games-link {
+  display: inline-block;
+  margin-top: 8px;
+  cursor: pointer;
+  transition: color var(--transition-base);
+}
+.site-footer .games-link:hover {
+  color: var(--color-accent);
+}
