@@ -182,20 +182,18 @@
 }
 
 .hero-resume-info {
-  display: flex;
-  justify-content: center;
-  gap: 24px;
-  margin-top: 8px;
+  margin-top: 12px;
 }
 
 .info-item {
   display: flex;
-  align-items: center;
-  gap: 6px;
+  justify-content: center;
+  gap: 8px;
+  padding: 4px 0;
 }
 
 .info-label {
-  font-size: 13px;
+  font-size: 14px;
   color: #555;
 }
 
