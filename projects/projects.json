@@ -1,8 +1,14 @@
 [
   {
-    "id": "sample-project",
+    "id": "807544076-github-io",
     "name": "807544076.github.io",
-    "summary": "我的个人站点——就是你正在看的这个。日系简约设计、樱花粒子背景、隐藏彩蛋。",
+    "summary": "我的个人站点——日系简约设计、樱花粒子背景、隐藏彩蛋。",
     "link": "https://github.com/807544076/807544076.github.io"
+  },
+  {
+    "id": "todo-cli",
+    "name": "Todo CLI",
+    "summary": "一个命令行的待办事项管理工具，支持标签、优先级和搜索。",
+    "link": "https://github.com/oceanfish/todo-cli"
   }
 ]

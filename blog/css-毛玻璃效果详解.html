@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>你好，世界 — Oceanfish</title>
+  <title>CSS 毛玻璃效果详解 — Oceanfish</title>
   <link rel="stylesheet" href="../css/style.css">
   <style>
     .post-page { max-width: 720px; margin: 80px auto 40px; padding: 0 20px; }
@@ -28,27 +28,38 @@
 <body>
   <article class="post-page">
     <header class="post-header">
-      <h1>你好，世界</h1>
-      <div class="post-meta">2026-06-30</div>
+      <h1>CSS 毛玻璃效果详解</h1>
+      <div class="post-meta">2026-06-22</div>
     </header>
     <div class="post-content">
-<p>这是我的个人站点第一篇文章。</p>
+<p>毛玻璃效果（Glassmorphism）是近几年比较流行的设计风格。</p>
 
-<p>站点使用纯 HTML/CSS/JS 构建，零依赖部署在 GitHub Pages 上。从设计到实现，从樱花粒子到隐藏彩蛋，每行代码都是亲手写的。</p>
+<h2>核心 CSS 属性</h2>
 
-<h2>为什么自己写？</h2>
+<pre><code>.glass {
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(20px);
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+}</code></pre>
 
-<p>用 WordPress、Hexo 这类工具当然更快，但少了很多乐趣。自己写可以：</p>
+<h2>原理</h2>
 
-<ul>
-<li>完全掌控每一像素</li>
-<li>想加什么彩蛋就加什么</li>
-<li>学习底层原理</li>
-</ul>
+<p><code>backdrop-filter</code> 可以对元素<strong>背后</strong>的内容应用滤镜效果。<code>blur(20px)</code> 让背后的内容变得模糊，模拟透过磨砂玻璃看东西的效果。</p>
 
-<h2>后续计划</h2>
+<h2>兼容性</h2>
 
-<p>这里会记录一些技术笔记、项目复盘和日常随笔。感谢来访。</p>
+<p><code>backdrop-filter</code> 在主流浏览器中都已支持，但 Firefox 需要版本 103+。可以用 <code>@supports</code> 做降级：</p>
+
+<pre><code>@supports not (backdrop-filter: blur(20px)) {
+  .glass {
+    background: rgba(255, 255, 255, 0.9);
+  }
+}</code></pre>
+
+<h2>移动端注意</h2>
+
+<p>毛玻璃在低端移动设备上可能性能不佳。建议在移动端简化或降级效果。</p>
 
     </div>
     <a class="post-back link-underline" href="../index.html">← 返回首页</a>
