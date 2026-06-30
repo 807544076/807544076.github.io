@@ -62,6 +62,17 @@ const ContentArea = (() => {
   const modalMeta = document.getElementById('modalMeta');
   const modalContent = document.getElementById('modalContent');
 
+  // 显示弹窗骨架
+  function showModalSkeleton() {
+    if (!modal) return;
+    modal.style.display = 'flex';
+    requestAnimationFrame(() => modal.classList.add('active'));
+    document.body.style.overflow = 'hidden';
+    modalTitle.textContent = '加载中…';
+    modalMeta.textContent = '';
+    modalContent.innerHTML = '<p style="color:#aaa;text-align:center;padding:40px;">加载中…</p>';
+  }
+
   // 关闭弹窗
   function closeModal() {
     if (!modal) return;
@@ -70,48 +81,54 @@ const ContentArea = (() => {
     document.body.style.overflow = '';
   }
 
-  // ESC 键关闭
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') closeModal();
   });
-
-  // 点击遮罩关闭
   backdrop?.addEventListener('click', closeModal);
   closeBtn?.addEventListener('click', closeModal);
 
-  // 打开弹窗
+  /* === 简历弹窗（点击毛玻璃卡片触发） === */
+  async function openResume() {
+    if (!modal) return;
+    showModalSkeleton();
+
+    const avatarEl = modal.querySelector('.modal-avatar');
+    if (avatarEl) avatarEl.textContent = '🐟';
+
+    try {
+      const res = await fetch('pages/resume.html');
+      const html = await res.text();
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(html, 'text/html');
+      const contentEl = doc.querySelector('.resume-content');
+
+      modalTitle.textContent = 'Oceanfish';
+      modalMeta.innerHTML = '一只在海里写代码的鱼';
+      modalContent.innerHTML = contentEl?.innerHTML || '<p>暂无内容</p>';
+    } catch (err) {
+      console.error('[resume] load error:', err);
+      modalTitle.textContent = 'Oceanfish';
+      modalContent.innerHTML = '<p style="color:#e8738a;text-align:center;padding:40px;">简历加载失败</p>';
+    }
+  }
+
+  /* === 博客/项目弹窗 === */
   async function openModal(type, id) {
     if (!modal) return;
+    showModalSkeleton();
 
-    // 显示弹窗
-    modal.style.display = 'flex';
-    // 触发动画：先 display 后加 active
-    requestAnimationFrame(() => {
-      modal.classList.add('active');
-    });
-    document.body.style.overflow = 'hidden'; // 禁止背景滚动
-
-    // 设置标题（先显示再加载内容）
-    modalTitle.textContent = '加载中…';
-    modalMeta.textContent = '';
-    modalContent.innerHTML = '<p style="color:#aaa;text-align:center;padding:40px;">加载中…</p>';
-
-    // 获取 avatar 信息
     const avatarEl = modal.querySelector('.modal-avatar');
     if (avatarEl) avatarEl.textContent = type === 'blog' ? '📝' : '💻';
 
-    // 加载内容
     try {
       const htmlPath = type === 'blog' ? `blog/${id}.html` : `projects/${id}.html`;
       const detailRes = await fetch(htmlPath);
       const html = await detailRes.text();
-
-      // 用 DOMParser 安全解析 HTML
       const parser = new DOMParser();
       const doc = parser.parseFromString(html, 'text/html');
 
       if (type === 'blog') {
-        // 博客：标题 + 日期 + 正文
+        // 博客：左栏显示信息，右栏显示预览 + 跳转按钮
         const titleEl = doc.querySelector('.post-header h1');
         const metaEl = doc.querySelector('.post-meta');
         const contentEl = doc.querySelector('.post-content');
@@ -119,22 +136,54 @@ const ContentArea = (() => {
         modalTitle.textContent = titleEl?.textContent || id;
         modalMeta.textContent = metaEl?.textContent || '';
 
-        // 构建标签
-        // 从 JSON 中读取 tags
+        // 从 JSON 获取 tags 和 summary
+        let summary = '', tags = [];
         try {
           const postsRes = await fetch('blog/posts.json');
           const posts = await postsRes.json();
           const post = posts.find(p => p.id === id);
-          if (post?.tags?.length) {
-            const tagsHtml = post.tags.map(t => `<span class="modal-tag">${esc(t)}</span>`).join('');
-            modalMeta.innerHTML += (modalMeta.textContent ? ' · ' : '') + `<div class="modal-tags">${tagsHtml}</div>`;
+          if (post) {
+            summary = post.summary || '';
+            tags = post.tags || [];
           }
         } catch(e) {}
 
-        modalContent.innerHTML = contentEl?.innerHTML || '<p>暂无内容</p>';
+        if (tags.length) {
+          const tagsHtml = tags.map(t => `<span class="modal-tag">${esc(t)}</span>`).join('');
+          modalMeta.innerHTML += '<br><div class="modal-tags" style="margin-top:8px">' + tagsHtml + '</div>';
+        }
+
+        // 右栏：摘要 + 正文前 300 字预览 + 跳转按钮
+        let previewHtml = summary ? `<p style="color:var(--color-text-secondary);margin-bottom:16px;font-size:14px;">${esc(summary)}</p>` : '';
+        previewHtml += '<hr style="border:none;border-top:1px solid #eee;margin:0 0 16px;">';
+
+        if (contentEl) {
+          // 取正文前两段作为预览
+          const paragraphs = contentEl.querySelectorAll('p');
+          let previewCount = 0;
+          for (const p of paragraphs) {
+            if (previewCount >= 3) break;
+            const text = p.textContent.trim();
+            if (text.length > 20) {
+              previewHtml += `<p>${text.slice(0, 200)}${text.length > 200 ? '…' : ''}</p>`;
+              previewCount++;
+            }
+          }
+        }
+
+        // 跳转按钮
+        previewHtml += `
+          <div style="text-align:right;margin-top:24px;">
+            <a href="blog/${esc(id)}.html" class="modal-full-link" onclick="ContentArea.closeModal()">
+              📖 阅读全文 →
+            </a>
+          </div>
+        `;
+
+        modalContent.innerHTML = previewHtml;
 
       } else {
-        // 项目：名称 + 链接 + 正文
+        // 项目弹窗
         const nameEl = doc.querySelector('.project-header h1');
         const linkEl = doc.querySelector('.project-link');
         const contentEl = doc.querySelector('.project-content');
@@ -145,16 +194,24 @@ const ContentArea = (() => {
           modalMeta.innerHTML = `<a class="modal-project-link" href="${esc(linkEl.getAttribute('href') || '')}" target="_blank">查看源码 →</a>`;
         }
 
-        const contentHtml = contentEl?.innerHTML || '<p>暂无内容</p>';
-        // 去掉末尾的返回链接和 GitHub 链接（它们已在 modal 中）
+        // 去掉内容中的返回链接
+        let contentHtml = contentEl?.innerHTML || '<p>暂无内容</p>';
+        contentHtml = contentHtml.replace(/<a[^>]*class="[^"]*back[^"]*"[^>]*>.*?<\/a>/gi, '');
+        contentHtml += `
+          <div style="text-align:right;margin-top:24px;">
+            <a href="projects/${esc(id)}.html" class="modal-full-link" onclick="ContentArea.closeModal()">
+              📖 查看详情 →
+            </a>
+          </div>
+        `;
         modalContent.innerHTML = contentHtml;
       }
     } catch (err) {
       console.error('[modal] load error:', err);
       modalTitle.textContent = '加载失败';
-      modalContent.innerHTML = '<p style="color:#e8738a;text-align:center;padding:40px;">内容加载失败，请稍后重试</p>';
+      modalContent.innerHTML = '<p style="color:#e8738a;text-align:center;padding:40px;">内容加载失败</p>';
     }
   }
 
-  return { render, openModal, closeModal };
+  return { render, openModal, closeModal, openResume };
 })();

@@ -62,6 +62,18 @@
   box-shadow: var(--shadow-card-hover);
 }
 
+.hero-card-hint {
+  margin-top: 16px;
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  opacity: 0;
+  transition: opacity var(--transition-base);
+}
+
+.hero-card:hover .hero-card-hint {
+  opacity: 0.7;
+}
+
 /* 头像占位 */
 .hero-avatar {
   margin-bottom: 20px;
