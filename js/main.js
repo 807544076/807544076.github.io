@@ -14,21 +14,51 @@
     document.body.classList.add('js-ready');
   }
 
-  // 初始化首屏粒子
+  // 初始化首屏粒子 + 简历展开
   function initHero() {
     console.log('[main] initHero: ParticleEngine exists:', !!ParticleEngine);
     const canvas = document.getElementById('particleCanvas');
-    console.log('[main] canvas element:', canvas);
     if (canvas && ParticleEngine) {
       ParticleEngine.init(canvas);
-      console.log('[main] ParticleEngine.init() done, starting in 200ms');
-      setTimeout(() => {
-        console.log('[main] starting particles');
-        ParticleEngine.start();
-      }, 200);
+      setTimeout(() => ParticleEngine.start(), 200);
     }
 
-    // Scroll 提示点击
+    // 简历展开/折叠
+    const heroCard = document.getElementById('heroCard');
+    const heroHeader = document.getElementById('heroCardHeader');
+    const heroCollapse = document.getElementById('heroCollapse');
+    const resumeContent = document.getElementById('resumeContent');
+    let resumeLoaded = false;
+
+    if (heroCard && heroHeader) {
+      heroHeader.addEventListener('click', async (e) => {
+        if (heroCard.classList.contains('expanded')) return;
+        heroCard.classList.add('expanded');
+
+        if (!resumeLoaded && resumeContent) {
+          try {
+            const res = await fetch('pages/resume.html');
+            const html = await res.text();
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            const content = doc.querySelector('.resume-content');
+            resumeContent.innerHTML = content?.innerHTML || '<p>暂无内容</p>';
+            resumeLoaded = true;
+          } catch (err) {
+            resumeContent.innerHTML = '<p style="color:#e8738a;">加载失败</p>';
+          }
+        }
+      });
+    }
+
+    if (heroCollapse && heroCard) {
+      heroCollapse.addEventListener('click', (e) => {
+        e.stopPropagation();
+        heroCard.classList.remove('expanded');
+      });
+    }
+
+    // Scroll 提示
     const scrollHint = document.getElementById('scrollHint');
     if (scrollHint) {
       scrollHint.textContent = '▼ Scroll ▼'; // visible sign JS is working

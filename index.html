@@ -14,13 +14,31 @@
   <section id="hero">
     <canvas id="particleCanvas"></canvas>
     <div class="hero-overlay"></div>
-    <div class="hero-card" id="heroCard" onclick="ContentArea.openResume()" title="点击查看简历">
-      <div class="hero-avatar">
-        <div class="avatar-placeholder">🐟</div>
+    <div class="hero-card" id="heroCard">
+      <button class="hero-collapse-btn" id="heroCollapse" title="收起">✕</button>
+      <!-- 折叠状态 -->
+      <div class="hero-card-header" id="heroCardHeader">
+        <div class="hero-avatar">
+          <div class="avatar-placeholder">🐟</div>
+        </div>
+        <h1 class="hero-name">Oceanfish</h1>
+        <p class="hero-bio">一只在海里写代码的鱼</p>
+        <div class="hero-card-hint" id="heroHint">点击展开简历 ▼</div>
       </div>
-      <h1 class="hero-name">Oceanfish</h1>
-      <p class="hero-bio">一只在海里写代码的鱼</p>
-      <div class="hero-card-hint">点击查看简历 →</div>
+
+      <!-- 展开状态（简历） -->
+      <div class="hero-card-body" id="heroBody">
+        <div class="hero-resume">
+          <div class="hero-resume-left">
+            <div class="hero-resume-avatar">🐟</div>
+            <div class="hero-resume-name">Oceanfish</div>
+            <div class="hero-resume-bio">一只在海里写代码的鱼</div>
+          </div>
+          <div class="hero-resume-right" id="resumeContent">
+            <div class="resume-placeholder">加载中…</div>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="scroll-hint" id="scrollHint">
       <span>Scroll</span>

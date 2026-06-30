@@ -26,7 +26,6 @@
   width: 100%;
   height: 100%;
   display: block;
-  /* canvas 背景透明，透出底部的背景图片 */
 }
 
 .hero-overlay {
@@ -37,46 +36,40 @@
   height: 100%;
   pointer-events: none;
   z-index: 1;
-  /* 让背景图片稍微暗一点，卡片更清晰 */
   background: rgba(0, 0, 0, 0.15);
 }
 
-/* 毛玻璃卡片 */
+/* 毛玻璃卡片 — 可伸缩 */
 .hero-card {
   position: relative;
   z-index: 2;
   text-align: center;
-  padding: 48px 64px;
-  background: rgba(255, 255, 255, 0.55);
+  padding: 40px 48px;
+  background: rgba(255, 255, 255, 0.35);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-radius: var(--radius-card);
   box-shadow: var(--shadow-card);
-  transition: transform var(--transition-base), box-shadow var(--transition-base);
+  cursor: pointer;
   max-width: 420px;
   width: 90%;
+  transition: max-width 0.5s ease, box-shadow var(--transition-base);
 }
 
-.hero-card:hover {
-  transform: translateY(-4px);
+.hero-card.expanded {
+  max-width: 900px;
+  cursor: default;
   box-shadow: var(--shadow-card-hover);
 }
 
-.hero-card-hint {
-  margin-top: 16px;
-  font-size: 12px;
-  color: var(--color-text-secondary);
-  opacity: 0;
-  transition: opacity var(--transition-base);
-}
-
-.hero-card:hover .hero-card-hint {
-  opacity: 0.7;
+/* 折叠状态的头 */
+.hero-card-header {
+  transition: opacity 0.3s ease;
 }
 
 /* 头像占位 */
 .hero-avatar {
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
 .avatar-placeholder {
@@ -93,7 +86,7 @@
   transition: transform var(--transition-base);
 }
 
-.hero-card:hover .avatar-placeholder {
+.hero-card:not(.expanded):hover .avatar-placeholder {
   transform: scale(1.05);
 }
 
@@ -101,7 +94,7 @@
   font-size: 28px;
   font-weight: 600;
   color: var(--color-text);
-  margin-bottom: 8px;
+  margin-bottom: 6px;
   letter-spacing: 2px;
 }
 
@@ -109,6 +102,152 @@
   font-size: 15px;
   color: var(--color-text-secondary);
   letter-spacing: 1px;
+}
+
+.hero-card-hint {
+  margin-top: 14px;
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  opacity: 0.5;
+  transition: opacity var(--transition-base);
+}
+
+.hero-card:not(.expanded):hover .hero-card-hint {
+  opacity: 0.9;
+}
+
+/* ===== 展开的简历区域 ===== */
+
+.hero-card-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease;
+  text-align: left;
+}
+
+.hero-card.expanded .hero-card-body {
+  max-height: 800px;
+}
+
+.hero-resume {
+  display: flex;
+  gap: 36px;
+  padding-top: 28px;
+  border-top: 1px solid rgba(255, 255, 255, 0.5);
+  margin-top: 24px;
+}
+
+/* 左栏 30% */
+.hero-resume-left {
+  flex: 0 0 30%;
+  text-align: center;
+  min-width: 0;
+}
+
+.hero-resume-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  margin: 0 auto 10px;
+}
+
+.hero-resume-name {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: 4px;
+}
+
+.hero-resume-bio {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  margin-bottom: 12px;
+}
+
+/* 右栏 70% */
+.hero-resume-right {
+  flex: 0 0 70%;
+  min-width: 0;
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--color-text);
+}
+
+.hero-resume-right h2 {
+  font-size: 17px;
+  font-weight: 600;
+  margin: 20px 0 8px;
+  color: var(--color-text);
+}
+
+.hero-resume-right h2:first-child {
+  margin-top: 0;
+}
+
+.hero-resume-right h3 {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 14px 0 4px;
+  color: var(--color-text);
+}
+
+.hero-resume-right p {
+  margin-bottom: 10px;
+  color: var(--color-text);
+}
+
+.hero-resume-right ul {
+  padding-left: 20px;
+  margin-bottom: 10px;
+}
+
+.hero-resume-right li {
+  margin-bottom: 4px;
+  color: var(--color-text);
+}
+
+.hero-resume-right a {
+  color: var(--color-accent);
+  text-decoration: underline;
+}
+
+.hero-resume-right strong {
+  font-weight: 600;
+}
+
+.hero-resume-right .resume-placeholder {
+  color: var(--color-text-secondary);
+  font-style: italic;
+}
+
+/* 折叠按钮 */
+.hero-collapse-btn {
+  display: none;
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: background var(--transition-base);
+  line-height: 1;
+}
+
+.hero-collapse-btn:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.hero-card.expanded .hero-collapse-btn {
+  display: block;
 }
 
 /* Scroll 提示 */
@@ -150,6 +289,25 @@
 /* backdrop-filter 降级 */
 @supports not (backdrop-filter: blur(20px)) {
   .hero-card {
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.85);
+  }
+}
+
+/* 移动端适配 */
+@media (max-width: 768px) {
+  .hero-card.expanded {
+    max-width: 90%;
+  }
+  .hero-resume {
+    flex-direction: column;
+    gap: 16px;
+  }
+  .hero-resume-left,
+  .hero-resume-right {
+    flex: none;
+  }
+  .hero-resume-right {
+    max-height: 50vh;
+    overflow-y: auto;
   }
 }
