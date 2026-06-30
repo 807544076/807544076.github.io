@@ -5,14 +5,22 @@
 
   let modulesLoaded = 0;
   const totalModules = 2; // particles, easter-egg (masonry 按需加载)
+  let initialized = false;
+
+  function initAll() {
+    if (initialized) return;
+    initialized = true;
+    clearTimeout(safetyTimer);
+    initHero();
+    initEasterEggs();
+    initContentLazy();
+  }
 
   // Safety timeout: force initialization even if a module fails to load
   const safetyTimer = setTimeout(() => {
     if (modulesLoaded < totalModules) {
       modulesLoaded = totalModules; // force completion
-      initHero();
-      initEasterEggs();
-      initContentLazy();
+      initAll();
     }
   }, 5000);
 
@@ -27,12 +35,9 @@
 
   // 所有模块准备就绪
   function onReady() {
-    clearTimeout(safetyTimer);
     modulesLoaded++;
     if (modulesLoaded >= totalModules) {
-      initHero();
-      initEasterEggs();
-      initContentLazy();
+      initAll();
     }
   }
 
