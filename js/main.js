@@ -59,13 +59,14 @@
       scrollHint.addEventListener('click', () => {
         document.getElementById('content')?.scrollIntoView({ behavior: 'smooth' });
         scrollHint.classList.add('hidden');
+        observer.disconnect();
       });
 
       // 用户主动滚动到底部区域时隐藏提示
       const observer = new IntersectionObserver((entries) => {
         for (const entry of entries) {
           if (entry.isIntersecting) {
-            scrollHint.classList.add('hidden');
+            if (scrollHint) scrollHint.classList.add('hidden');
             observer.disconnect();
           }
         }

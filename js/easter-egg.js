@@ -3,6 +3,7 @@
 const EasterEggs = (() => {
   let clickCount = 0;
   let clickTimer = null;
+  let secretOverlay = null;
   let secretMessage = '🐟 这里有一条来自 Oceanfish 的秘密消息。';
 
   function init() {
@@ -94,6 +95,7 @@ const EasterEggs = (() => {
   }
 
   function triggerSecret(msg) {
+    if (secretOverlay) return; // already showing
     if (msg) secretMessage = msg;
 
     // 创建浮层
@@ -129,6 +131,7 @@ const EasterEggs = (() => {
 
     overlay.appendChild(box);
     document.body.appendChild(overlay);
+    secretOverlay = overlay;
 
     // 触发入场动画
     requestAnimationFrame(() => {
@@ -136,19 +139,13 @@ const EasterEggs = (() => {
       box.style.transform = 'scale(1)';
     });
 
-    // 5 秒后淡出
-    setTimeout(() => {
+    const close = () => {
       overlay.style.opacity = '0';
       box.style.transform = 'scale(0.9)';
-      setTimeout(() => overlay.remove(), 500);
-    }, 5000);
-
-    // 点击可提前关闭
-    overlay.addEventListener('click', () => {
-      overlay.style.opacity = '0';
-      box.style.transform = 'scale(0.9)';
-      setTimeout(() => overlay.remove(), 500);
-    });
+      setTimeout(() => { overlay.remove(); secretOverlay = null; }, 500);
+    };
+    setTimeout(close, 5000);
+    overlay.addEventListener('click', close);
   }
 
   return { init, triggerSecret };

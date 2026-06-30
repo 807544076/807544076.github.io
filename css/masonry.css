@@ -17,7 +17,6 @@
   color: var(--color-text);
   margin-bottom: 24px;
   letter-spacing: 1px;
-  padding-left: 4px;
   border-left: 3px solid var(--color-primary);
   padding-left: 12px;
 }

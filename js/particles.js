@@ -70,8 +70,8 @@ const ParticleEngine = (() => {
       this.vy = CONFIG.gravity * (0.5 + Math.random());
     }
 
-    update() {
-      const wind = CONFIG.windBase + Math.sin(Date.now() * 0.001) * CONFIG.windVariation;
+    update(now) {
+      const wind = CONFIG.windBase + Math.sin(now * 0.001) * CONFIG.windVariation;
       this.vx += (wind - this.vx) * 0.01;
       this.vy += CONFIG.gravity;
 
@@ -86,7 +86,7 @@ const ParticleEngine = (() => {
       }
 
       // 摇摆
-      this.vx += Math.sin(Date.now() * this.swaySpeed + this.swayOffset) * CONFIG.swayAmplitude * 0.01;
+      this.vx += Math.sin(now * this.swaySpeed + this.swayOffset) * CONFIG.swayAmplitude * 0.01;
 
       this.x += this.vx;
       this.y += this.vy;
@@ -154,7 +154,10 @@ const ParticleEngine = (() => {
     });
 
     // 初始化粒子池
-    const count = Math.floor(CONFIG.baseCount * bloomMultiplier);
+    const isMobile = window.innerWidth < 768 || ('ontouchstart' in window);
+    const effectiveBase = isMobile ? Math.floor(CONFIG.baseCount * 0.4) : CONFIG.baseCount;
+
+    const count = Math.floor(effectiveBase * bloomMultiplier);
     particles = [];
     for (let i = 0; i < count; i++) {
       const p = new Petal();
@@ -174,9 +177,10 @@ const ParticleEngine = (() => {
   function animate() {
     if (!isRunning) return;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const now = Date.now();
 
     for (const p of particles) {
-      p.update();
+      p.update(now);
       p.draw(ctx);
     }
 
@@ -201,7 +205,7 @@ const ParticleEngine = (() => {
   function setBloom(active) {
     if (active) {
       bloomMultiplier = 3;
-      const targetCount = Math.floor(CONFIG.baseCount * 3);
+      const targetCount = CONFIG.bloomCount;
       while (particles.length < targetCount) {
         const p = new Petal();
         p.y = Math.random() * canvas.height;
