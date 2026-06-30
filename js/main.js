@@ -6,6 +6,16 @@
   let modulesLoaded = 0;
   const totalModules = 2; // particles, easter-egg (masonry 按需加载)
 
+  // Safety timeout: force initialization even if a module fails to load
+  const safetyTimer = setTimeout(() => {
+    if (modulesLoaded < totalModules) {
+      modulesLoaded = totalModules; // force completion
+      initHero();
+      initEasterEggs();
+      initContentLazy();
+    }
+  }, 5000);
+
   // 延迟加载脚本
   function loadScript(src, callback) {
     const script = document.createElement('script');
@@ -17,6 +27,7 @@
 
   // 所有模块准备就绪
   function onReady() {
+    clearTimeout(safetyTimer);
     modulesLoaded++;
     if (modulesLoaded >= totalModules) {
       initHero();
