@@ -53,7 +53,11 @@
   cursor: pointer;
   max-width: 420px;
   width: 90%;
-  transition: max-width 0.5s ease, box-shadow var(--transition-base);
+  transition: max-width 0.5s ease, transform 0.3s ease, box-shadow var(--transition-base);
+}
+
+.hero-card:not(.expanded):hover {
+  transform: scale(1.03);
 }
 
 .hero-card.expanded {
@@ -105,20 +109,26 @@
 
 .hero-bio {
   font-size: 15px;
-  color: var(--color-text-secondary);
+  color: #555;
   letter-spacing: 1px;
 }
 
 .hero-card-hint {
-  margin-top: 14px;
-  font-size: 12px;
+  margin-top: 12px;
+  font-size: 14px;
   color: var(--color-text-secondary);
-  opacity: 0.5;
-  transition: opacity var(--transition-base);
+  opacity: 0.4;
+  transition: opacity var(--transition-base), transform 0.3s ease;
+  animation: hintBounce 2s ease-in-out infinite;
 }
 
 .hero-card:not(.expanded):hover .hero-card-hint {
-  opacity: 0.9;
+  opacity: 0.8;
+}
+
+@keyframes hintBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(4px); }
 }
 
 /* ===== 展开的简历区域 ===== */
