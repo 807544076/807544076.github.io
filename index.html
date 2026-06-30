@@ -48,10 +48,26 @@
   <footer class="site-footer">
     <p>❮ Oceanfish © 2026 ❯</p>
     <div>
-      <a class="social-link link-underline" href="https://github.com/oceanfish" target="_blank">GitHub</a>
+      <a class="social-link link-underline" href="https://github.com/807544076" target="_blank">GitHub</a>
     </div>
     <span class="games-link" id="gamesLink" onclick="if(window.Games) Games.launch()">🎮 Games</span>
   </footer>
+
+  <!-- 内容弹窗 -->
+  <div id="contentModal" class="modal-overlay" style="display:none">
+    <div class="modal-backdrop"></div>
+    <div class="modal-container">
+      <button class="modal-close" id="modalClose" aria-label="关闭">×</button>
+      <div class="modal-inner">
+        <div class="modal-left">
+          <div class="modal-avatar">🐟</div>
+          <div class="modal-title" id="modalTitle"></div>
+          <div class="modal-meta" id="modalMeta"></div>
+        </div>
+        <div class="modal-right" id="modalContent"></div>
+      </div>
+    </div>
+  </div>
 
   <script src="js/particles.js"></script>
   <script src="js/masonry.js"></script>
