@@ -23,16 +23,19 @@
       setTimeout(() => ParticleEngine.start(), 200);
     }
 
-    // 简历展开/折叠
+    // 简历展开/折叠（单击切换）
     const heroCard = document.getElementById('heroCard');
-    const heroHeader = document.getElementById('heroCardHeader');
-    const heroCollapse = document.getElementById('heroCollapse');
     const resumeContent = document.getElementById('resumeContent');
     let resumeLoaded = false;
 
-    if (heroCard && heroHeader) {
-      heroHeader.addEventListener('click', async (e) => {
-        if (heroCard.classList.contains('expanded')) return;
+    if (heroCard) {
+      heroCard.addEventListener('click', async (e) => {
+        // 点击链接不触发折叠
+        if (e.target.closest('a')) return;
+        if (heroCard.classList.contains('expanded')) {
+          heroCard.classList.remove('expanded');
+          return;
+        }
         heroCard.classList.add('expanded');
 
         if (!resumeLoaded && resumeContent) {
@@ -48,13 +51,6 @@
             resumeContent.innerHTML = '<p style="color:#e8738a;">加载失败</p>';
           }
         }
-      });
-    }
-
-    if (heroCollapse && heroCard) {
-      heroCollapse.addEventListener('click', (e) => {
-        e.stopPropagation();
-        heroCard.classList.remove('expanded');
       });
     }
 

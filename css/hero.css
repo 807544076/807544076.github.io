@@ -62,7 +62,7 @@
 
 .hero-card.expanded {
   max-width: 900px;
-  cursor: default;
+  cursor: pointer;
   box-shadow: var(--shadow-card-hover);
   padding: 48px 56px;
 }
@@ -256,31 +256,6 @@
 .hero-resume-right .resume-placeholder {
   color: var(--color-text-secondary);
   font-style: italic;
-}
-
-/* 折叠按钮 */
-.hero-collapse-btn {
-  display: none;
-  position: absolute;
-  top: 12px;
-  right: 16px;
-  background: none;
-  border: none;
-  font-size: 20px;
-  color: var(--color-text-secondary);
-  cursor: pointer;
-  padding: 4px 8px;
-  border-radius: 6px;
-  transition: background var(--transition-base);
-  line-height: 1;
-}
-
-.hero-collapse-btn:hover {
-  background: rgba(0, 0, 0, 0.06);
-}
-
-.hero-card.expanded .hero-collapse-btn {
-  display: block;
 }
 
 /* Scroll 提示 */
